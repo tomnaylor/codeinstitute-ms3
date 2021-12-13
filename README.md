@@ -1,4 +1,13 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+- gitpod from github template
+added app.py file
+touch env.py then added to .gitignore then added env values 
+added flash to requirements installed from pip3
+added new project in monogo db called "cue_manager"
+built a shared (free) cluster called "cue-manager"
+created user "cuemanager" with password "cuemanager" - added access from anywhere
+created a databsde "cue_manager" and collections "departments", "cues", "users"
+
+
 
 Welcome tomnaylor 2,
 
