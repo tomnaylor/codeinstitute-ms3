@@ -1,4 +1,4 @@
-- gitpod from github template
+gitpod from github template
 added app.py file
 touch env.py then added to .gitignore then added env values 
 added flash to requirements installed from pip3
@@ -6,6 +6,10 @@ added new project in monogo db called "cue_manager"
 built a shared (free) cluster called "cue-manager"
 created user "cuemanager" with password "cuemanager" - added access from anywhere
 created a databsde "cue_manager" and collections "departments", "cues", "users"
+added default route to app.py to test 
+added procfile ready for heroku
+created new heroku app "cue-manager-tn-ci-ms3"
+
 
 
 
