@@ -1,7 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
 
-<h2>List of Departments</h2>
-<ul>
-    {% for department in departments %}
-        <li>{{ department.name }}</li>
-    {% endfor %}
-</ul>
+    <h2>List of Departments</h2>
+
+    {% if departments|length > 0 %}
+        <ul>
+            {% for department in departments %}
+                <li>{{ department.name }}</li>
+            {% endfor %}
+        </ul>  
+    {% else %}
+        <h3>No Results Found</h3>
+    {% endif %}
+
+{% endblock %}

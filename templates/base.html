@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
+    <title>Theatre cue manager</title>
+</head>
+<body>
+
+
+    <!-- HEADER / NAV -->
+	<header>
+		<nav>
+			<ul>
+				<li><a href="{{ url_for('get_departments') }}">Departments</a></li>
+            </ul>
+		</nav>
+	</header>
+
+
+    <!-- FLASH SECTION -->
+    <section>
+        {% with flashed = get_flashed_messages() %}
+            {% if flashed %}
+                <ul>
+                {% for message in flashed %}
+                    <li>{{ message }}</h4>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </section>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+</html>

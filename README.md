@@ -12,7 +12,13 @@ created new heroku app "cue-manager-tn-ci-ms3"
 added env variabled to match local file
 auto deployed app on heroku via github commit updates
 added flask-pymongo + dnspython + updated requirements
+Debugged connection to mongoDB - URI was wrong and needed to restart python
+added base.html and flash container
 
+
+Problems
+problems connection to mongoDB - https://flask-pymongo.readthedocs.io/en/latest/#flask_pymongo.PyMongo.db as reference
+Heroku didn't work - env var wasn't updated in line with env.py
 
 
 

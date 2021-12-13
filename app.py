@@ -23,7 +23,7 @@ def hello():
 
 
 @app.route("/departments")
-def departments():
+def get_departments():
     departments = list(mongo.db.departments.find())
     return render_template("departments.html", departments=departments)
 
