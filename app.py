@@ -21,6 +21,12 @@ def hello():
     return "hello world"
 
 
+@app.route("/departments")
+def departments():
+    departments = list(mongo.db.departments.find())
+    return render_template("departments.html", departments=departments)
+
+
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
