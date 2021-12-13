@@ -9,7 +9,8 @@ created a databsde "cue_manager" and collections "departments", "cues", "users"
 added default route to app.py to test 
 added procfile ready for heroku
 created new heroku app "cue-manager-tn-ci-ms3"
-
+added env variabled to match local file
+auto deployed app on heroku via github commit updates
 
 
 
