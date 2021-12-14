@@ -38,9 +38,10 @@ def sign_up():
             flash("User already exists")
             return redirect(url_for("sign_up"))
 
-        # BUILD NEW USER RECORD
+        # ELSE BUILD NEW USER RECORD
         new_user = {
             "email": request.form.get("email").lower(),
+            "name": request.form.get("name"),
             "password": generate_password_hash(request.form.get("password"))
         }
 
@@ -49,9 +50,47 @@ def sign_up():
         # ADD USER EMAIL TO SESSION 
         session["user"] = request.form.get("email").lower()
         flash("Sign up successful!")
-        return redirect(url_for("user", user=session["user"]))
+        return redirect(url_for("get_user"))
 
     return render_template("sign-up.html")
+
+
+# LOGIN
+@app.route("/login", methods=["GET", "POST"])
+def login():
+
+    # IF FORM IS SUBMITTED
+    if request.method == "POST":
+        exists = mongo.db.users.find_one({"email": request.form.get("email").lower()})
+
+        if not exists:
+            flash("Invalid user details")
+            return redirect(url_for("login"))
+
+        if check_password_hash(exists["password"], request.form.get("password")):
+            session["user"] = request.form.get("email").lower()
+            flash("Welcome, {}".format(request.form.get("email")))
+            return redirect(url_for("get_user"))
+        else:
+            flash("Incorrect Username and/or Password")
+            return redirect(url_for("login"))
+
+    return render_template("login.html")
+
+
+# USER PROFILE PAGE
+@app.route("/user")
+def get_user():
+
+    # REDIRECT IF NO USER IS LOGGED IN
+    if not session["user"]:
+        flash("No user signed in")
+        return redirect(url_for("sign_up"))
+
+    user = mongo.db.users.find_one({"email": session["user"]})
+    return render_template("user.html", user=user)
+
+    return redirect(url_for("login"))
 
 
 # LIST OF ALL DEPARTMENTS (ADMIN ONLY)

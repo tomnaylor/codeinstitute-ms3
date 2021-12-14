@@ -17,8 +17,8 @@
         <li><a href="{{ url_for('get_cues') }}">Home</a></li>
         <li><a href="{{ url_for('get_departments') }}">Departments</a></li>
         {% if session.user %}
-            <li><a href="{{ url_for('user', username=session['user']) }}">Profile</a></li>
-            <li><a href="{{ url_for('add_task') }}">New Cue</a></li>
+            <li><a href="{{ url_for('get_user') }}">Profile</a></li>
+            <li><a href="{{ url_for('get_user') }}">New Cue</a></li>
             {% if session.user|lower == "admin"|lower %}
                 <li><a href="{{ url_for('get_departments') }}">Manage Categories</a></li>
             {% endif %}
@@ -33,8 +33,8 @@
         <li><a href="{{ url_for('get_cues') }}">Home</a></li>
         <li><a href="{{ url_for('get_departments') }}">Departments</a></li>
         {% if session.user %}
-            <li><a href="{{ url_for('user', username=session['user']) }}">Profile</a></li>
-            <li><a href="{{ url_for('add_task') }}">New Cue</a></li>
+            <li><a href="{{ url_for('get_user') }}">Profile</a></li>
+            <li><a href="{{ url_for('get_user') }}">New Cue</a></li>
             {% if session.user|lower == "admin"|lower %}
                 <li><a href="{{ url_for('get_departments') }}">Manage Categories</a></li>
             {% endif %}
