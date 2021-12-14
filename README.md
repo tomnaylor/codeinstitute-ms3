@@ -14,6 +14,7 @@ auto deployed app on heroku via github commit updates
 added flask-pymongo + dnspython + updated requirements
 Debugged connection to mongoDB - URI was wrong and needed to restart python
 added base.html and flash container
+added mataralize template
 
 
 Problems

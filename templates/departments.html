@@ -1,7 +1,13 @@
 {% extends "base.html" %}
+
+{% block h1 %}
+<h1 class="header center teal-text text-lighten-2">List of Departments</h1>
+{% endblock %}
+
+
 {% block content %}
 
-    <h2>List of Departments</h2>
+    
 
     {% if departments|length > 0 %}
         <ul>

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block h1 %}
+<h1 class="header center teal-text text-lighten-2">Sign up</h1>
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="row">
+        <form class="col s12 m8 offset-m2" method="POST" action="{{ url_for('sign_up') }}">
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="fas fa-email prefix"></i>
+                    <input id="email" name="email" type="email" minlength="6" maxlength="200" class="validate" required>
+                    <label for="email">Email address</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="fas fa-user-lock"></i>
+                    <input id="password" name="password" type="password" minlength="8" maxlength="20" 
+                        pattern="^([a-zA-Z0-9!@#$%^&*_=+-){8,20}$" class="validate" required>
+                    <label for="password">Password</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <button type="submit" class="col s12 btn-large light-blue darken-4 text-shadow">
+                    Sign up <i class="fas fa-sign-in-alt"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+
+{% endblock %}
