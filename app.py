@@ -62,20 +62,27 @@ def login():
     # IF FORM IS SUBMITTED
     if request.method == "POST":
         exists = mongo.db.users.find_one({"email": request.form.get("email").lower()})
-
         if not exists:
             flash("Invalid user details")
             return redirect(url_for("login"))
 
         if check_password_hash(exists["password"], request.form.get("password")):
-            session["user"] = request.form.get("email").lower()
-            flash("Welcome, {}".format(request.form.get("email")))
+            session["user"] = exists["email"]
+            flash("Welcome, {}".format(exists["name"]))
             return redirect(url_for("get_user"))
         else:
-            flash("Incorrect Username and/or Password")
+            flash("Invalid email or password")
             return redirect(url_for("login"))
 
     return render_template("login.html")
+
+
+# LOGOUT
+@app.route("/logout")
+def logout():
+    session.pop("user")
+    flash("Logged out")
+    return redirect(url_for("login"))
 
 
 # USER PROFILE PAGE
@@ -85,12 +92,10 @@ def get_user():
     # REDIRECT IF NO USER IS LOGGED IN
     if not session["user"]:
         flash("No user signed in")
-        return redirect(url_for("sign_up"))
+        return redirect(url_for("login"))
 
     user = mongo.db.users.find_one({"email": session["user"]})
     return render_template("user.html", user=user)
-
-    return redirect(url_for("login"))
 
 
 # LIST OF ALL DEPARTMENTS (ADMIN ONLY)

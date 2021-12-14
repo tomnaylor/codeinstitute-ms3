@@ -15,12 +15,13 @@ added flask-pymongo + dnspython + updated requirements
 Debugged connection to mongoDB - URI was wrong and needed to restart python
 added base.html and flash container
 added mataralize template
+password regex https://stackoverflow.com/questions/27976446/html-password-regular-expression-validation
 
 
 Problems
 problems connection to mongoDB - https://flask-pymongo.readthedocs.io/en/latest/#flask_pymongo.PyMongo.db as reference
 Heroku didn't work - env var wasn't updated in line with env.py
-
+User profile wouldn't load - had an error in base.html that called url for user not get_user
 
 
 Welcome tomnaylor 2,
