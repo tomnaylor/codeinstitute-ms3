@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block h1 %}
+<h1 class="header center teal-text text-lighten-2">Cues</h1>
+{% endblock %}
+
+
+{% block content %}
+
+    
+
+    {% if cues[0]|length > 0 %}
+        <table>
+            {% for cue in cues %}
+                <tr>
+                    <td>{{ cue.dept }}</td>
+                    <td>{{ cue.number }}</td>
+                    <td>{{ cue.desc }}</td>
+                </tr>
+            {% endfor %}
+            </table>  
+    {% else %}
+        <h3>No Cues Found</h3>
+    {% endif %}
+
+{% endblock %}

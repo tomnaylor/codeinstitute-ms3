@@ -22,7 +22,7 @@ Problems
 problems connection to mongoDB - https://flask-pymongo.readthedocs.io/en/latest/#flask_pymongo.PyMongo.db as reference
 Heroku didn't work - env var wasn't updated in line with env.py
 User profile wouldn't load - had an error in base.html that called url for user not get_user
-
+cues loop would not work on template - fixed with {% if cues[0]|length > 0 %} (cues[0] no cues)
 
 Welcome tomnaylor 2,
 

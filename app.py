@@ -3,8 +3,9 @@ from flask import (
     Flask, flash, render_template,
     redirect, request, session, url_for)
 from flask_pymongo import PyMongo
-from bson.objectid import ObjectId
+# from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
+
 if os.path.exists("env.py"):
     import env
 
@@ -19,10 +20,14 @@ app.secret_key = os.environ.get("SECRET_KEY")
 mongo = PyMongo(app)
 
 
-# HOME PAGE WILL BE LIST OF CUES INC A FILTER OPTION
 @app.route("/")
+
+
+@app.route("/cues")
 def get_cues():
-    return "hello world"
+    """ HOME PAGE WILL BE LIST OF CUES INC A FILTER OPTION """
+    cues = mongo.db.cues.find().sort("number", 1)
+    return render_template("cues.html", cues=cues)
 
 
 # NEW USER SIGN UP
@@ -47,7 +52,7 @@ def sign_up():
 
         mongo.db.users.insert_one(new_user)
 
-        # ADD USER EMAIL TO SESSION 
+        # ADD USER EMAIL TO SESSION
         session["user"] = request.form.get("email").lower()
         flash("Sign up successful!")
         return redirect(url_for("get_user"))
@@ -61,14 +66,16 @@ def login():
 
     # IF FORM IS SUBMITTED
     if request.method == "POST":
-        exists = mongo.db.users.find_one({"email": request.form.get("email").lower()})
+        exists = mongo.db.users.find_one(
+            {"email": request.form.get("email").lower()})
         if not exists:
             flash("Invalid user details")
             return redirect(url_for("login"))
 
-        if check_password_hash(exists["password"], request.form.get("password")):
+        if check_password_hash(
+                exists["password"], request.form.get("password")):
             session["user"] = exists["email"]
-            flash("Welcome, {}".format(exists["name"]))
+            flash(f"Welcome, { exists['name'] }")
             return redirect(url_for("get_user"))
         else:
             flash("Invalid email or password")
@@ -98,16 +105,42 @@ def get_user():
     return render_template("user.html", user=user)
 
 
-# LIST OF ALL DEPARTMENTS (ADMIN ONLY)
 @app.route("/departments")
 def get_departments():
-    
+    """ LIST OF ALL DEPARTMENTS (ADMIN ONLY) """
     # CHECK FOR ADMIN RIGHTS FIRST
-    #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
     # GET LIST OF ALL DEPARTMENTS
     departments = list(mongo.db.departments.find())
     return render_template("departments.html", departments=departments)
+
+
+# NEW CUE
+@app.route("/new-cue", methods=["GET", "POST"])
+def new_cue():
+
+    # CHECK USER RIGHTS
+    if not session['user']:
+        flash("You must be logged in to add a cue")
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+
+        # BUILD NEW CUE RECORD
+        new_cue_record = {
+            "number": request.form.get("number"),
+            "dept": request.form.get("dept"),
+            "desc": request.form.get("desc")
+        }
+
+        mongo.db.cues.insert_one(new_cue_record)
+
+        flash("Cue added successful!")
+        return redirect(url_for("get_cues"))
+
+    departments = mongo.db.departments.find().sort("name", 1)
+    return render_template("new-cue.html", departments=departments)
 
 
 if __name__ == "__main__":
