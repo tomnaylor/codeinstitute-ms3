@@ -16,11 +16,11 @@
       <ul class="right hide-on-med-and-down">
         <li><a href="{{ url_for('get_cues') }}">Home</a></li>
         {% if session.user %}
-            <li><a href="{{ url_for('get_user') }}">New Cue</a></li>
+            <li><a href="{{ url_for('new_cue') }}">New Cue</a></li>
             <li>{{ session['user']['name'] }}</li>
             <li><a href="{{ url_for('get_user') }}">Profile</a></li>
             <li><a href="{{ url_for('logout') }}">Log Out</a></li>
-            {% if session.user|lower == "admin"|lower %}
+            {% if session.admin == "yes" %}
                 <li><a href="{{ url_for('get_departments') }}">Manage Departments</a></li>
             {% endif %}
         {% else %}
@@ -32,7 +32,7 @@
       <ul id="nav-mobile" class="sidenav">
         <li><a href="{{ url_for('get_cues') }}">Home</a></li>
         {% if session.user %}
-            <li><a href="{{ url_for('get_user') }}">New Cue</a></li>
+            <li><a href="{{ url_for('new_cue') }}">New Cue</a></li>
             <li><a href="{{ url_for('get_user') }}">Profile</a></li>
             <li><a href="{{ url_for('logout') }}">Log Out</a></li>
             {% if session.user|lower == "admin"|lower %}
@@ -47,19 +47,6 @@
     </div>
   </nav>
 
-
-<!-- FLASH SECTION -->
-<section>
-{% with flashed = get_flashed_messages() %}
-    {% if flashed %}
-        <ul>
-        {% for message in flashed %}
-            <li>{{ message }}</h4>
-        {% endfor %}
-        </ul>
-    {% endif %}
-{% endwith %}
-</section>
 
 
   <div id="index-banner" class="parallax-container">
@@ -105,7 +92,7 @@
           <ul>
             <li><a href="{{ url_for('get_cues') }}" class="white-text">Home</a></li>
             {% if session.user %}
-                <li><a href="{{ url_for('get_user') }}">New Cue</a></li>
+                <li><a href="{{ url_for('new_cue') }}">New Cue</a></li>
                 <li>{{ session['user']['name'] }}</li>
                 <li><a href="{{ url_for('get_user') }}">Profile</a></li>
                 <li><a href="{{ url_for('logout') }}">Log Out</a></li>
@@ -132,6 +119,19 @@
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
   <script src="{{ url_for('static', filename='js/init.js') }}"></script>
-
+  <!-- FLASH SECTION -->
+  <script>
+    {% with flashed = get_flashed_messages() %}
+        {% if flashed %}
+            {% for message in flashed %}
+            M.toast({
+              html: '{{ message }}', 
+              classes: 'rounded red white-text hoverable pulse tn-toast',
+              displayLength: 10000})
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+  </script>
+  
   </body>
 </html>

@@ -30,9 +30,9 @@ def get_cues():
     return render_template("cues.html", cues=cues)
 
 
-# NEW USER SIGN UP
 @app.route("/sign-up", methods=["GET", "POST"])
 def sign_up():
+    """ NEW USER SIGNUP """
     if request.method == "POST":
 
         # DOES USER ALREADY EXIST?
@@ -60,11 +60,9 @@ def sign_up():
     return render_template("sign-up.html")
 
 
-# LOGIN
 @app.route("/login", methods=["GET", "POST"])
 def login():
-
-    # IF FORM IS SUBMITTED
+    """ LOGIN EXISTING USER """
     if request.method == "POST":
         exists = mongo.db.users.find_one(
             {"email": request.form.get("email").lower()})
@@ -75,6 +73,7 @@ def login():
         if check_password_hash(
                 exists["password"], request.form.get("password")):
             session["user"] = exists["email"]
+            session["admin"] = exists["admin"]
             flash(f"Welcome, { exists['name'] }")
             return redirect(url_for("get_user"))
         else:
@@ -84,19 +83,18 @@ def login():
     return render_template("login.html")
 
 
-# LOGOUT
 @app.route("/logout")
 def logout():
+    """ LOGOUT """
     session.pop("user")
+    session.pop("admin")
     flash("Logged out")
     return redirect(url_for("login"))
 
 
-# USER PROFILE PAGE
 @app.route("/user")
 def get_user():
-
-    # REDIRECT IF NO USER IS LOGGED IN
+    """ GET USER DETAILS """
     if not session["user"]:
         flash("No user signed in")
         return redirect(url_for("login"))
@@ -109,7 +107,9 @@ def get_user():
 def get_departments():
     """ LIST OF ALL DEPARTMENTS (ADMIN ONLY) """
     # CHECK FOR ADMIN RIGHTS FIRST
-    # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    if session["admin"] != "yes":
+        flash("Sorry you need to be an admin to edit departments")
+        return redirect(url_for("get_cues"))
 
     # GET LIST OF ALL DEPARTMENTS
     departments = list(mongo.db.departments.find())
@@ -119,7 +119,7 @@ def get_departments():
 # NEW CUE
 @app.route("/new-cue", methods=["GET", "POST"])
 def new_cue():
-
+    """ ADD A NEW CUE """
     # CHECK USER RIGHTS
     if not session['user']:
         flash("You must be logged in to add a cue")

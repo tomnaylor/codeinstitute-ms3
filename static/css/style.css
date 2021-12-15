@@ -29,6 +29,12 @@ p {
     width: 100%;
   }
 
+.tn-toast {
+  font-size:1em;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
 @media only screen and (max-width : 992px) {
   .parallax-container .section {
     position: absolute;

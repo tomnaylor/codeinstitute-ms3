@@ -10,11 +10,15 @@
     
 
     {% if departments|length > 0 %}
-        <ul>
+        <table>
             {% for department in departments %}
-                <li>{{ department.name }}</li>
+                <tr>
+                    <td>{{ department.name }}</td>
+                    <td><a href="{{ url_for('get_departments', id=department._id) }}" class="btn green accent-4">Edit</a></td>
+                    <td><a href="{{ url_for('get_departments', id=department._id) }}" class="btn light-blue lighten-1">Delete</a></td>
+                </tr>
             {% endfor %}
-        </ul>  
+            </table>  
     {% else %}
         <h3>No Results Found</h3>
     {% endif %}
