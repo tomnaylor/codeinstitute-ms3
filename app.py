@@ -3,7 +3,7 @@ from flask import (
     Flask, flash, render_template,
     redirect, request, session, url_for)
 from flask_pymongo import PyMongo
-# from bson.objectid import ObjectId
+from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
 
 if os.path.exists("env.py"):
@@ -115,8 +115,52 @@ def get_departments():
     departments = list(mongo.db.departments.find())
     return render_template("departments.html", departments=departments)
 
+def is_user_logged_in():
+    """ CHECK USER RIGHTS """
+    if not session.get('user'):
+        flash("You must be logged in to do that!")
+        return False
+    else:
+        return True
 
-# NEW CUE
+
+@app.route("/new-department", methods=["GET", "POST"])
+def new_department():
+    """ ADD A NEW DEPARTMENT """
+    
+    if not is_user_logged_in():
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+
+        # BUILD NEW DEPARTMENT RECORD
+        new_record = {
+            "name": request.form.get("name")
+        }
+
+        mongo.db.departments.insert_one(new_record)
+
+        flash("New department added successful!")
+        return redirect(url_for("get_departments"))
+
+    return render_template("new-department.html")
+
+
+@app.route("/edit_department/<dept_id>", methods=["GET", "POST"])
+def edit_department(dept_id):
+    if request.method == "POST":
+
+        new_value = { "$set": { "name": request.form.get("name") } }
+        mongo.db.departments.update_one({"_id": ObjectId(dept_id)}, new_value)
+        flash("Department updated")
+        return redirect(url_for("get_departments"))
+
+    department = mongo.db.departments.find_one({"_id": ObjectId(dept_id)})
+    return render_template("edit-department.html", department=department)
+
+
+# ----- CUES ------
+
 @app.route("/new-cue", methods=["GET", "POST"])
 def new_cue():
     """ ADD A NEW CUE """
