@@ -27,4 +27,6 @@ Cues did not sort in order. 1 and 11 would be before 2. Think it's bacause it's 
 password regex https://stackoverflow.com/questions/27976446/html-password-regular-expression-validation
 objectid didn't work - needed to inport library
 
-"TypeError: 'Collection' object is not callable. If you meant to call the 'update' method on a 'Collection' object it is failing because no such method exists." when trying to edit a department
+"TypeError: 'Collection' object is not callable. If you meant to call the 'update' method on a 'Collection' object it is failing because no such method exists." when trying to edit a department - https://www.w3schools.com/python/python_mongodb_update.asp
+
+Error deleting : https://www.w3schools.com/python/python_mongodb_delete.asp

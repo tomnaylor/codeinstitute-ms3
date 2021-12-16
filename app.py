@@ -148,6 +148,11 @@ def new_department():
 
 @app.route("/edit_department/<dept_id>", methods=["GET", "POST"])
 def edit_department(dept_id):
+    """ EDIT A DEPARTMENT """
+
+    if not is_user_logged_in():
+        return redirect(url_for("login"))
+
     if request.method == "POST":
 
         new_value = { "$set": { "name": request.form.get("name") } }
@@ -157,6 +162,23 @@ def edit_department(dept_id):
 
     department = mongo.db.departments.find_one({"_id": ObjectId(dept_id)})
     return render_template("edit-department.html", department=department)
+
+
+@app.route("/delete_department/<dept_id>/<dept_name>")
+def delete_department(dept_id, dept_name):
+    """ DELETE A DEPARTMENT """
+    
+    if not is_user_logged_in():
+        return redirect(url_for("login"))
+    
+    inuse = mongo.db.cues.find_one({"dept": dept_name})
+    if inuse:
+        flash("Department is used in cues")
+        return redirect(url_for("get_departments"))
+
+    mongo.db.departments.delete_one({"_id": ObjectId(dept_id)})
+    flash("Department deleted")
+    return redirect(url_for("get_departments"))
 
 
 # ----- CUES ------
