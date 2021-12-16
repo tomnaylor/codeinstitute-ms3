@@ -195,7 +195,7 @@ def new_cue():
 
         # BUILD NEW CUE RECORD
         new_cue_record = {
-            "number": request.form.get("number"),
+            "number": round(float(request.form.get("number")),1),
             "dept": request.form.get("dept"),
             "desc": request.form.get("desc")
         }

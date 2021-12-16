@@ -23,7 +23,9 @@ Heroku didn't work - env var wasn't updated in line with env.py
 User profile wouldn't load - had an error in base.html that called url for user not get_user
 cues loop would not work on template - fixed with {% if cues[0]|length > 0 %} (cues[0] no cues)
 admin session not working - forgot need to logout and back in after each time record was modified.
-Cues did not sort in order. 1 and 11 would be before 2. Think it's bacause it's in DB as a string and not number
+
+Cues did not sort in order. 1 and 11 would be before 2. Think it's bacause it's in DB as a string and not number. added tham as a float but rounded to 1 decimal place
+
 password regex https://stackoverflow.com/questions/27976446/html-password-regular-expression-validation
 objectid didn't work - needed to inport library
 
