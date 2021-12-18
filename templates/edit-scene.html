@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block h1 %}
+<h1 class="header center teal-text text-lighten-2">Edit scene</h1>
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="row">
+        <form class="col s12 m8 offset-m2" method="POST" action="{{ url_for('edit_scene', scene_id=scene._id) }}">
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="name" name="name" type="text" value="{{ scene.name }}" minlength="2" maxlength="30" class="validate" autofocus required>
+                    <label for="name">Scene name</label>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea id="desc" name="desc" class="materialize-textarea">{{ scene.desc }}</textarea>
+                    <label for="desc">Description</label>
+                </div>
+            </div>
+            
+            <div class="row">
+                <button type="submit" class="col s12 btn-large light-blue darken-4 text-shadow">
+                    Edit scene
+                </button>
+            </div>
+        </form>
+    </div>
+
+
+{% endblock %}

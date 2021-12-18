@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block h1 %}
+<h1 class="header center teal-text text-lighten-2">List of Scenes</h1>
+{% endblock %}
+
+
+{% block content %}
+
+    <a href="{{ url_for('new_scene') }}" class="btn green accent-4">New scene</a>
+
+    {% if scenes|length > 0 %}
+        <table>
+            {% for scene in scenes %}
+                <tr>
+                    <td>{{ scene.name }}</td>
+                    <td>{{ scene.desc }}</td>
+                    <td><a href="{{ url_for('edit_scene', scene_id=scene._id) }}" class="btn blue">Edit</a></td>
+                    <td>
+                        <a href="{{ url_for('delete_scene', scene_id=scene._id) }}" class="btn red"
+                            onclick="return confirm('Are you sure?');">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>  
+    {% else %}
+        <h3>No Results Found</h3>
+    {% endif %}
+
+{% endblock %}

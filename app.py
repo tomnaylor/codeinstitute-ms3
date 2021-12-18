@@ -260,6 +260,75 @@ def delete_role(role_id, role_name):
     return redirect(url_for("get_roles"))
 
 
+# ----- SCENES -----
+
+
+@app.route("/scenes")
+def get_scenes():
+    """ LIST OF ALL SCENES (ADMIN ONLY) """
+    # CHECK FOR ADMIN RIGHTS FIRST
+    if session["admin"] != "yes":
+        flash("Sorry you need to do that")
+        return redirect(url_for("get_cues"))
+
+    # GET LIST OF ALL SCENES
+    scenes = list(mongo.db.scenes.find())
+    return render_template("scenes.html", scenes=scenes)
+
+
+@app.route("/new-scene", methods=["GET", "POST"])
+def new_scene():
+    """ ADD A NEW SCENE """
+    if not is_user_logged_in():
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+
+        # BUILD NEW RECORD
+        new_record = {
+            "name": request.form.get("name"),
+            "desc": request.form.get("desc")
+        }
+
+        mongo.db.scenes.insert_one(new_record)
+
+        flash("New scene added successful!")
+        return redirect(url_for("get_scenes"))
+
+    return render_template("new-scene.html")
+
+
+@app.route("/edit-scene/<scene_id>", methods=["GET", "POST"])
+def edit_scene(scene_id):
+    """ EDIT A SCENE """
+
+    if not is_user_logged_in():
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+        new_value = {"$set": {
+            "name": request.form.get("name"),
+            "desc": request.form.get("desc")}}
+        mongo.db.scenes.update_one({"_id": ObjectId(scene_id)}, new_value)
+        flash("Scene updated")
+        return redirect(url_for("get_scenes"))
+
+    scene = mongo.db.scenes.find_one({"_id": ObjectId(scene_id)})
+    return render_template("edit-scene.html", scene=scene)
+
+
+@app.route("/delete-scene/<scene_id>")
+def delete_scene(scene_id):
+    """ DELETE A SCENE """
+
+    if not is_user_logged_in():
+        return redirect(url_for("login"))
+
+    mongo.db.scenes.delete_one({"_id": ObjectId(scene_id)})
+    flash("Scene deleted")
+    return redirect(url_for("get_scenes"))
+
+
 # ----- CUES ------
 
 @app.route("/new-cue", methods=["GET", "POST"])
@@ -272,12 +341,20 @@ def new_cue():
 
     if request.method == "POST":
 
+        # CHECK IF GLOBAL CUE NUMBER IS UNIQUE
+        is_cue_unique = mongo.db.cues.find_one({"number": round(float(request.form.get("number")), 1)})
+        if is_cue_unique:
+            # REDIRECT BUT KEEP FORM DATA
+            flash("Cue number is not unique")
+            return redirect(url_for("new_cue"))
+
         # FIND DEPT FROM ROLE
         role = mongo.db.roles.find_one({"name": request.form.get("role")})
 
         # BUILD NEW CUE RECORD
         new_cue_record = {
             "number": round(float(request.form.get("number")), 1),
+            "dept_number": round(float(request.form.get("dept_number")), 1),
             "dept": role["dept"],
             "role": request.form.get("role"),
             "scene": request.form.get("scene"),
@@ -291,7 +368,51 @@ def new_cue():
 
     departments = mongo.db.departments.find().sort("name", 1)
     roles = mongo.db.roles.find().sort("name", 1)
-    return render_template("new-cue.html", departments=departments, roles=roles)
+    scenes = mongo.db.scenes.find().sort("name", 1)
+    return render_template("new-cue.html", departments=departments, roles=roles, scenes=scenes)
+
+
+@app.route("/edit-cue/<cue_id>", methods=["GET", "POST"])
+def edit_cue(cue_id):
+    """ EDIT A CUE """
+
+    if not is_user_logged_in():
+        return redirect(url_for("login"))
+
+    # FIND DEPT FROM ROLE
+    role = mongo.db.roles.find_one({"name": request.form.get("role")})
+
+    if request.method == "POST":
+        new_value = {"$set": {
+            "number": round(float(request.form.get("number")), 1),
+            "dept_number": round(float(request.form.get("dept_number")), 1),
+            "dept": role["dept"],
+            "role": request.form.get("role"),
+            "scene": request.form.get("scene"),
+            "desc": request.form.get("desc")
+            }}
+            
+        mongo.db.cues.update_one({"_id": ObjectId(cue_id)}, new_value)
+        flash("Cue updated")
+        return redirect(url_for("get_cues"))
+
+    departments = mongo.db.departments.find().sort("name", 1)
+    roles = mongo.db.roles.find().sort("name", 1)
+    scenes = mongo.db.scenes.find().sort("name", 1)
+    cue = mongo.db.cues.find_one({"_id": ObjectId(cue_id)})
+    return render_template("edit-cue.html", cue=cue, departments=departments, roles=roles, scenes=scenes)
+
+
+@app.route("/delete-cue/<cue_id>")
+def delete_cue(cue_id):
+    """ DELETE A CUE """
+
+    if not is_user_logged_in():
+        return redirect(url_for("login"))
+
+    mongo.db.cues.delete_one({"_id": ObjectId(cue_id)})
+    flash("Cue deleted")
+    return redirect(url_for("get_cues"))
 
 
 if __name__ == "__main__":

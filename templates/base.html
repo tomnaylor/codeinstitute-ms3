@@ -23,6 +23,7 @@
             {% if session.admin == "yes" %}
               <li><a href="{{ url_for('get_departments') }}">Manage Departments</a></li>
               <li><a href="{{ url_for('get_roles') }}">Manage Roles</a></li>              
+              <li><a href="{{ url_for('get_scenes') }}">Manage Scenes</a></li>              
             {% endif %}
         {% else %}
             <li><a href="{{ url_for('login') }}">Log In</a></li>
