@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block h1 %}
-<h1 class="header center teal-text text-lighten-2">Cues</h1>
+Cues
 {% endblock %}
 
 
@@ -11,8 +11,8 @@
         <table class="highlight">
             <thead>
                 <tr>
+                    <th>Minutes</th>
                     <th>Scene</th>
-                    <th>Global #</th>
                     <th>Cue #</th>
                     <th>Department</th>
                     <th>Role</th>
@@ -24,9 +24,9 @@
             <tbody>
                 {% for cue in cues %}
                     <tr>
+                        <td title="{{ cue.time }} seconds">{{ '%02d' % (cue.time // 60) }}:{{ '%02d' % (cue.time % 60) }}</td>
                         <td>{{ cue.scene }}</td>
                         <td>{{ cue.number }}</td>
-                        <td>{{ cue.dept_number }}</td>
                         <td>{{ cue.dept }}</td>
                         <td>{{ cue.role }}</td>
                         <td>{{ cue.desc }}</td>

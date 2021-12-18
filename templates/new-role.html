@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
 {% block h1 %}
-<h1 class="header center teal-text text-lighten-2">New role</h1>
+New role
 {% endblock %}
 
 
 {% block content %}
 
     <div class="row">
-        <form class="col s12 m8 offset-m2" method="POST" action="{{ url_for('new_role') }}">
+        <form class="col s12" method="POST" action="{{ url_for('new_role') }}">
 
             <div class="row">
                 <div class="input-field col s12">
@@ -30,7 +30,7 @@
             </div>
 
             <div class="row">
-                <button type="submit" class="col s12 btn-large light-blue darken-4 text-shadow">
+                <button type="submit" class="col s3 btn-large light-blue darken-4 text-shadow">
                     Add role
                 </button>
             </div>

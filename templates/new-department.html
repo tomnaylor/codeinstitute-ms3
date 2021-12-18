@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
 {% block h1 %}
-<h1 class="header center teal-text text-lighten-2">New department</h1>
+New department
 {% endblock %}
 
 
 {% block content %}
 
     <div class="row">
-        <form class="col s12 m8 offset-m2" method="POST" action="{{ url_for('new_department') }}">
+        <form class="col s12" method="POST" action="{{ url_for('new_department') }}">
 
             <div class="row">
                 <div class="input-field col s12">
@@ -18,7 +18,7 @@
             </div>
 
             <div class="row">
-                <button type="submit" class="col s12 btn-large light-blue darken-4 text-shadow">
+                <button type="submit" class="col s3 btn-large light-blue darken-4 text-shadow">
                     Add department
                 </button>
             </div>

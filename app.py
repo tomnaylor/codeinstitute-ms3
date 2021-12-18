@@ -1,4 +1,5 @@
 import os
+from datetime import datetime, timedelta
 from flask import (
     Flask, flash, render_template,
     redirect, request, session, url_for)
@@ -23,7 +24,7 @@ mongo = PyMongo(app)
 @app.route("/")
 def get_cues():
     """ HOME PAGE WILL BE LIST OF CUES INC A FILTER OPTION """
-    cues = mongo.db.cues.find().sort("number", 1)
+    cues = mongo.db.cues.find().sort("time", 1)
     return render_template("cues.html", cues=cues)
 
 
@@ -74,8 +75,8 @@ def login():
                 exists["password"], request.form.get("password")):
             session["user"] = exists["email"]
             session["admin"] = exists["admin"]
-            flash(f"Welcome, { exists['name'] }")
-            return redirect(url_for("get_user"))
+            flash(f"Hello { exists['name'] }")
+            return redirect(url_for("get_cues"))
         else:
             flash("Invalid email or password")
             return redirect(url_for("login"))
@@ -341,12 +342,12 @@ def new_cue():
 
     if request.method == "POST":
 
-        # CHECK IF GLOBAL CUE NUMBER IS UNIQUE
+        """# CHECK IF GLOBAL CUE NUMBER IS UNIQUE
         is_cue_unique = mongo.db.cues.find_one({"number": round(float(request.form.get("number")), 1)})
         if is_cue_unique:
             # REDIRECT BUT KEEP FORM DATA
             flash("Cue number is not unique")
-            return redirect(url_for("new_cue"))
+            return redirect(url_for("new_cue"))"""
 
         # FIND DEPT FROM ROLE
         role = mongo.db.roles.find_one({"name": request.form.get("role")})
@@ -354,7 +355,7 @@ def new_cue():
         # BUILD NEW CUE RECORD
         new_cue_record = {
             "number": round(float(request.form.get("number")), 1),
-            "dept_number": round(float(request.form.get("dept_number")), 1),
+            "time": int(request.form.get("time")),
             "dept": role["dept"],
             "role": request.form.get("role"),
             "scene": request.form.get("scene"),
@@ -385,7 +386,7 @@ def edit_cue(cue_id):
     if request.method == "POST":
         new_value = {"$set": {
             "number": round(float(request.form.get("number")), 1),
-            "dept_number": round(float(request.form.get("dept_number")), 1),
+            "time": int(request.form.get("time")),
             "dept": role["dept"],
             "role": request.form.get("role"),
             "scene": request.form.get("scene"),

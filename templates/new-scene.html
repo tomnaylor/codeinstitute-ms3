@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
 {% block h1 %}
-<h1 class="header center teal-text text-lighten-2">New scene</h1>
+New scene
 {% endblock %}
 
 
 {% block content %}
 
     <div class="row">
-        <form class="col s12 m8 offset-m2" method="POST" action="{{ url_for('new_scene') }}">
+        <form class="col s12" method="POST" action="{{ url_for('new_scene') }}">
 
             <div class="row">
                 <div class="input-field col s12">
@@ -25,7 +25,7 @@
             </div>
 
             <div class="row">
-                <button type="submit" class="col s12 btn-large light-blue darken-4 text-shadow">
+                <button type="submit" class="col s3 btn-large light-blue darken-4 text-shadow">
                     Add scene
                 </button>
             </div>
