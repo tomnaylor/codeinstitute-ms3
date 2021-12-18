@@ -13,8 +13,10 @@
         <table>
             {% for cue in cues %}
                 <tr>
-                    <td>{{ cue.dept }}</td>
+                    <td>{{ cue.scene }}</td>
                     <td>{{ cue.number }}</td>
+                    <td>{{ cue.dept }}</td>
+                    <td>{{ cue.role }}</td>
                     <td>{{ cue.desc }}</td>
                 </tr>
             {% endfor %}

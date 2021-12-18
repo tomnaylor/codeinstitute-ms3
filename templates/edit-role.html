@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block h1 %}
+<h1 class="header center teal-text text-lighten-2">Edit role</h1>
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="row">
+        <form class="col s12 m8 offset-m2" method="POST" action="{{ url_for('edit_role', role_id=role._id) }}">
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="name" name="name" type="text" value="{{ role.name }}" minlength="2" maxlength="30" class="validate" autofocus required>
+                    <label for="name">Role name</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <select id="dept" name="dept" class="validate" required>
+                        <option value="" disabled selected></option>
+                        {% for department in departments %}
+                            <option value="{{ department['name'] }}" {% if department.name == role.dept %} selected {% endif %}>{{ department['name'] }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="dept">Department</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <button type="submit" class="col s12 btn-large light-blue darken-4 text-shadow">
+                    Edit role
+                </button>
+            </div>
+        </form>
+    </div>
+
+
+{% endblock %}

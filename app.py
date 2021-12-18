@@ -21,13 +21,13 @@ mongo = PyMongo(app)
 
 
 @app.route("/")
-
-
-@app.route("/cues")
 def get_cues():
     """ HOME PAGE WILL BE LIST OF CUES INC A FILTER OPTION """
     cues = mongo.db.cues.find().sort("number", 1)
     return render_template("cues.html", cues=cues)
+
+
+# ----- USERS -----
 
 
 @app.route("/sign-up", methods=["GET", "POST"])
@@ -101,6 +101,9 @@ def get_user():
 
     user = mongo.db.users.find_one({"email": session["user"]})
     return render_template("user.html", user=user)
+
+
+# ----- DEPARTMENTS -----
 
 
 @app.route("/departments")
@@ -181,6 +184,82 @@ def delete_department(dept_id, dept_name):
     return redirect(url_for("get_departments"))
 
 
+# ----- ROLES -----
+
+
+@app.route("/roles")
+def get_roles():
+    """ LIST OF ALL ROLES (ADMIN ONLY) """
+    # CHECK FOR ADMIN RIGHTS FIRST
+    if session["admin"] != "yes":
+        flash("Sorry you need to do that")
+        return redirect(url_for("get_cues"))
+
+    # GET LIST OF ALL ROLES
+    roles = list(mongo.db.roles.find())
+    return render_template("roles.html", roles=roles)
+
+
+@app.route("/new-role", methods=["GET", "POST"])
+def new_role():
+    """ ADD A NEW ROLE """
+    if not is_user_logged_in():
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+
+        # BUILD NEW ROLE RECORD
+        new_record = {
+            "name": request.form.get("name"),
+            "dept": request.form.get("dept")
+        }
+
+        mongo.db.roles.insert_one(new_record)
+
+        flash("New role added successful!")
+        return redirect(url_for("get_roles"))
+
+    departments = list(mongo.db.departments.find())
+    return render_template("new-role.html", departments=departments)
+
+
+@app.route("/edit-role/<role_id>", methods=["GET", "POST"])
+def edit_role(role_id):
+    """ EDIT A ROLE """
+
+    if not is_user_logged_in():
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+        new_value = {"$set": {
+            "name": request.form.get("name"),
+            "dept": request.form.get("dept")}}
+        mongo.db.roles.update_one({"_id": ObjectId(role_id)}, new_value)
+        flash("Role updated")
+        return redirect(url_for("get_roles"))
+
+    role = mongo.db.roles.find_one({"_id": ObjectId(role_id)})
+    departments = list(mongo.db.departments.find())
+    return render_template("edit-role.html", role=role, departments=departments)
+
+
+@app.route("/delete-role/<role_id>/<role_name>")
+def delete_role(role_id, role_name):
+    """ DELETE A ROLE """
+
+    if not is_user_logged_in():
+        return redirect(url_for("login"))
+    
+    inuse = mongo.db.roles.find_one({"role": role_name})
+    if inuse:
+        flash("Role is used in cues")
+        return redirect(url_for("get_role"))
+
+    mongo.db.roles.delete_one({"_id": ObjectId(role_id)})
+    flash("Role deleted")
+    return redirect(url_for("get_roles"))
+
+
 # ----- CUES ------
 
 @app.route("/new-cue", methods=["GET", "POST"])
@@ -193,10 +272,15 @@ def new_cue():
 
     if request.method == "POST":
 
+        # FIND DEPT FROM ROLE
+        role = mongo.db.roles.find_one({"name": request.form.get("role")})
+
         # BUILD NEW CUE RECORD
         new_cue_record = {
-            "number": round(float(request.form.get("number")),1),
-            "dept": request.form.get("dept"),
+            "number": round(float(request.form.get("number")), 1),
+            "dept": role["dept"],
+            "role": request.form.get("role"),
+            "scene": request.form.get("scene"),
             "desc": request.form.get("desc")
         }
 
@@ -206,7 +290,8 @@ def new_cue():
         return redirect(url_for("get_cues"))
 
     departments = mongo.db.departments.find().sort("name", 1)
-    return render_template("new-cue.html", departments=departments)
+    roles = mongo.db.roles.find().sort("name", 1)
+    return render_template("new-cue.html", departments=departments, roles=roles)
 
 
 if __name__ == "__main__":
