@@ -15,60 +15,25 @@ Welcome to the theatre cue manager. The web application aims to make managing a 
 * [UX](#ux)
   * [Target Audience](#target-audience)
   * [User Stories](#user-stories)
-    * [First time visitor](#first-time-visitor)
-    * [Returning visitor](#returning-visitor)
   * [Site Owners Goals](#site-owners-goals)
   * [Design](#design)
-    * [Wireframes](#wireframes)
-    * [Database](#database)
-    * [Fonts](#font-family)
-    * [Colours](#colours)
 * [Features](#features)
   * [Existing Features](#existing-features)
-    * [Navigation](#navigation)
-    * [Help and how to use section](#help-and-how-to-use-section)
-    * [Current season prediction](#current-season-prediction)
-    * [Previous seasons](#previous-seasons)
-    * [Race standings](#race-standings)
-    * [Head to head](#head-to-head)
-    * [Circuit info](#circuit-info)
   * [Features left to implement](#features-left-to-implement)
-    * [Using cache for the API data](#using-cache-for-the-api-data)
-    * [More prediction inputs](#more-prediction-inputs)
-    * [Prediction techniques](#prediction-techniques)
-    * [Fastest lap](#fastest-lap)
-    * [Add more seasons](#add-more-seasons)
-    * [WIKI API](#wiki-api)
 * [Technologies used](#technologies-used)
-  * [Languages](#languages)
-  * [Libraries and APIs](#libraries-and-apis)
-  * [Tools](#tools)
 * [Testing](#testing)
   * [Automatic testers / validators](#automatic-testers-and-validators)
-    * [W3C HTML validator](#w3c-html-validator)
-    * [Jigsaw CSS Validator](#jigsaw-css-validator)
-    * [JS HINT](#js-hint)
-    * [Lighthouse](#lighthouse)
   * [Testing against the user Stories](#testing-against-the-user-stories)
-    * [First time visitor](#first-time-visitor)
-    * [Returning visitor](#returning-visitor)
   * [Manual Testing](#manual-testing)
-    * [Navigation menu](#navigation-menu)
-    * [Current user testimonials](#current-user-testimonials)
-    * [Sign up and contact forms](#sign-up-and-contact-forms)
   * [Known Bugs](#known-bugs)
-    * [Resolved](#resolved)
-    * [Un-Resolved](#un-Resolved)
 * [Deployment](#deployment)
 * [Credits](#credits)
-  * [Content](#content)
-  * [Acknowledgements](#acknowledgements)
 
 
 ## UX
 
 ### Target Audience
-* Theatre staage managers
+* Theatre stage managers
 * Theatre production managers
 * Venue technicians
 
@@ -85,7 +50,8 @@ As a returning visitor:
 * I want to print out a list for my department
 
 ### Site Owners Goals
-* Provide a useful way to manage cues in a theatre production
+As the site owner:
+* I want to provide a useful way to manage cues in a theatre production
 * I want to make the app secure
 * I want to make the app easy to navigate
 * I want to create a single source for all stage management cues
@@ -93,7 +59,6 @@ As a returning visitor:
 
 
 ### Design
-
 
 #### Wireframes
 I used a drawing tool to create a wireframe for the two responsive sizes (desktop and mobile).
@@ -120,28 +85,32 @@ I used the build in colours in materializecss, taking advantage of the lighten a
 ### Existing Features
 
 #### Navigation
-I have tried to make a intuitive, accessible and reactive navigation bar that stays useful across different screen sizes and devices. For desktop, the menu sticks to the top of every page with identical layouts. The menu items change dependign on if the user is logged in, not logged in or an admin. On mobile the manu is replaced with a hamburger icon and pressing that slides the menu in from the right. You can also swipe right at the edge of the page to call up the menu.
+I have tried to make a intuitive, accessible and reactive navigation bar that stays useful across different screen sizes and devices. For desktop, the menu sticks to the top of every page with identical layouts. The menu items change depending on if the user is logged in, not logged in or an admin. On mobile the manu is replaced with a hamburger icon and pressing that slides the menu in from the right. You can also swipe right at the edge of the page to call up the menu.
 
 #### Cue stack
-The initial section shows the cue stack. From this page you can print, edit or delete the cues. The table shows normally on desktop, but on mobile flips and allows the user the scroll horrizontally through all the cues.
+The initial section shows the cue stack. From this page you can print, edit or delete the cues. The table shows normally on desktop, but on mobile flips and allows the user the scroll horrizontally through all the cues. From here you can also search and print the cues, either as a whole or filtered by department.
 
 #### Add, Edit and deleting cues
-
+Cues are made up of a few pieces of info. A time (in seconds) from the start of the show, the scene that the cue is part of (scenes are a seperate collection), cue number, which department the cue belongs too and a description of the cue. 
 
 #### Add, Edit and deleting departments
-
+Departments (ie, Flys, LX, Automation etc.) is a collection just using a name. The collection is used to populate a select list so that cues can be given a consistant department making filtering easier.
 
 #### Add, Edit and deleting scenes
+Scenes is a collection with the aim to help catalogue the cues and collect them together into the scene they belong to during the show.
 
 
 #### sign up, login and logout
-
+Viewing the cues does not need to login, but other sections of the app need a user access / admin rights. Adding, editing and deleting a cue all need user access. Adding, editing and deleting departments and scenes need admin access. Currently, admin right needs to be added via mongoDB.
 
 
 ### Features left to implement
 
 #### Adding photos for scene changes
-XXX
+Uploading documents and photos to aid in the running of the show. This could be diagrams of truck movements, photos of props etc.
+
+#### Assigning user admin rights
+Currently, admin rights is added as a string to the mongoDB collection "users". In the future, this could be given to a user by another admin via the user profile.
 
 
 
@@ -150,23 +119,22 @@ XXX
 ### Languages
 * [HTML5](https://en.wikipedia.org/wiki/HTML5) is used as the mark-up language across various template files
 * [CSS3](https://en.wikipedia.org/wiki/Cascading_Style_Sheets) as a multiple CSS files. One for materialize and an over-ride sheet
-* [PYTHON]() XXX
-    * pyMongo
-    * ...
-* [JINJA]() XXX
+* [PYTHON](https://www.python.org/) is used as the backend language and is used to connect to mongoDB and the HTML templates
+    * Flask was imported and used as the framework for the project
+    * pyMongo was used to connect Flask and MongoDB
+* [JINJA](https://jinja.palletsprojects.com/en/3.0.x/) is the template language. I created a base file with the navigation and footer items and all other pages were extended from that.
 * [JavaScript](https://www.javascript.com/) is used for all the interactive elements of the app. It is made up of a few .js files
     * materialize.js comes with materialize and has all the scripts to run various add-ons
     * init.js is called to call functions needed for this particular app
-* [jQuery](https://jquery.com/) is used to make interacting with materialize easier
+* [jQuery](https://jquery.com/) is used to make interacting with materialize and javascript easier
 
 
 
 ### Tools
 * [GitHub:](https://github.com/) is used to store the projects code after being pushed from Git.
 * [GitPod](https://gitpod.io/) was used as the IDE
-* [MongoDB]() xxx
-* [Heroku]() xxx
-* [Google Lighthouse](https://developers.google.com/web/tools/lighthouse) was used to test page response, UX and further validation
+* [MongoDB](https://cloud.mongodb.com/) is the database for the project
+* [Heroku](https://heroku.com/) is the host for the project, which takes the code from the github repo
 * [Concepts](https://concepts.app/en/) was used to create the wireframe during the design process.
 
 
@@ -175,16 +143,15 @@ XXX
 
 ## Testing
 
-As well as the manual testing below I have also used the W3C HTML and CSS validator tools, Chrome Dev Tools and JS HINT. I found them very helpful to notify me of any potential problems and code that violates the standard. I also used the googles lighthouse to test the site load times and user experience.
+As well as the manual testing below I have also used the Chrome Dev Tools and PEP8 validators. I found them very helpful to notify me of any potential problems and code that violates the standard. I also used the googles lighthouse to test the site load times and user experience.
 
 ### Automatic testers and validators
 
 #### PEP8 validator
 The app.py code was copied into the validator and passed without error
 
-
 #### Lighthouse
-I used lighthouse on both the desktop and mobile versions of the site. The original performance score was 81% - new 96% (80 for mobile). You can view the [desktop report](assets/readme/lighthouse-desktop-report-final.pdf) and the [mobile report](assets/readme/lighthouse-mobile-report-final.pdf) or run a local copy using Chromes dev tools.
+I used lighthouse on both the desktop and mobile versions of the site. The desktop performance score was 100% (94% for mobile).
 
 
 ### Testing against the user Stories
@@ -244,13 +211,9 @@ I have preformed manual tests on a number of browsers and devices to cover most 
 
 
 
-
 #### Un-Resolved
 
 * **Time since start on cues** The time only shows minutes and seconds. 1 hour 30 min would show as "90:00". Either it needs formatting in the jinja template or before the template is called in python.
-
-
-
 
 
 
