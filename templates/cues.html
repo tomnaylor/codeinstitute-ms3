@@ -7,6 +7,19 @@ Cues
 
 {% block content %}
 
+<form action="{{ url_for('get_cues') }}" method="get">
+    <div class="row">
+        <div class="input-field col s4">
+            <input type="text" name="search" id="search" minlength="2" class="validate" required>
+            <label for="search">Search Tasks</label>
+        </div>
+        <div class="input-field col s2">
+            <button type="submit" class="btn">Search</button>
+        </div>
+    </div>
+</form>
+
+
 <div class="right">
     Filter: 
     <a href="{{ url_for('get_cues') }}" class="blue-text">All</a>

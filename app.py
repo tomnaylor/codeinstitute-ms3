@@ -45,6 +45,10 @@ def get_cues():
     if request.method == 'GET' and request.args.get("dept"):
         query = request.args.get("dept")
         cues = mongo.db.cues.find({"dept": query}).sort("time", 1)
+    elif request.method == 'GET' and request.args.get("search"):
+        query = request.args.get("search")
+        cues = mongo.db.cues.find( { 'desc' : { '$regex' : query, '$options' : 'i' } } )
+        #cues = mongo.db.cues.find({"desc" : "/in/"}).sort("time", 1)
     else:
         cues = mongo.db.cues.find().sort("time", 1)
 
