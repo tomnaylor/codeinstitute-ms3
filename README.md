@@ -38,3 +38,6 @@ objectid didn't work - needed to inport library
 Error deleting : https://www.w3schools.com/python/python_mongodb_delete.asp
 
 Format time in cue stack (give hour clock from seconds stored in DB) https://stackoverflow.com/questions/4830535/how-do-i-format-a-date-in-jinja2 + https://docs.python.org/3/library/datetime.html + https://stackoverflow.com/questions/775049/how-do-i-convert-seconds-to-hours-minutes-and-seconds
+https://stackoverflow.com/questions/58232744/how-to-left-pad-a-number-with-zeros-in-jinja2
+
+"KeyError KeyError: 'admin'" when logging out when not an admin - checked for admin first

@@ -13,7 +13,7 @@ Edit cue
             <div class="row">
                 <div class="input-field col s3">
                     <input id="time" name="time" type="number" step="1" min="0" max="999999" class="validate" value="{{ cue.time }}" autofocus required>
-                    <label for="time">Time from start</label>
+                    <label for="time">Seconds from start</label>
                 </div>
 
                 <div class="input-field col s9">
@@ -35,13 +35,13 @@ Edit cue
                 </div>
 
                 <div class="input-field col s9">
-                    <select id="role" name="role" class="validate" required>
+                    <select id="dept" name="dept" class="validate" required>
                         <option value="" disabled selected></option>
-                        {% for role in roles %}
-                            <option value="{{ role['name'] }}" {% if role.name == cue.role %} selected {% endif %}>{{ role['name'] }}</option>
+                        {% for department in departments %}
+                            <option value="{{ department['name'] }}" {% if department.name == cue.dept %} selected {% endif %}>{{ department['name'] }}</option>
                         {% endfor %}
                     </select>
-                    <label for="role">Role</label>
+                    <label for="dept">Department</label>
                 </div>
             </div>
 

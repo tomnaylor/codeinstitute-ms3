@@ -23,7 +23,6 @@
             <li><a href="{{ url_for('logout') }}" class="white-text">Log Out</a></li>
             {% if session.admin == "yes" %}
               <li><a href="{{ url_for('get_departments') }}" class="white-text">Manage Departments</a></li>
-              <li><a href="{{ url_for('get_roles') }}" class="white-text">Manage Roles</a></li>              
               <li><a href="{{ url_for('get_scenes') }}" class="white-text">Manage Scenes</a></li>              
             {% endif %}
         {% else %}
@@ -40,7 +39,6 @@
             <li><a href="{{ url_for('logout') }}" class="white-text">Log Out</a></li>
             {% if session.admin == "yes" %}
               <li><a href="{{ url_for('get_departments') }}" class="white-text">Manage Departments</a></li>
-              <li><a href="{{ url_for('get_roles') }}" class="white-text">Manage Roles</a></li>              
               <li><a href="{{ url_for('get_scenes') }}" class="white-text">Manage Scenes</a></li>              
             {% endif %}
         {% else %}
@@ -96,8 +94,7 @@
                 <li><a href="{{ url_for('logout') }}" class="white-text">Log Out</a></li>
                 {% if session.admin == "yes" %}
                   <li><a href="{{ url_for('get_departments') }}" class="white-text">Manage Departments</a></li>
-                  <li><a href="{{ url_for('get_roles') }}" class="white-text">Manage Roles</a></li>              
-                  <li><a href="{{ url_for('get_scenes') }}" class="white-text">Manage Scenes</a></li>              
+                  <li><a href="{{ url_for('get_scenes') }}" class="white-text">Manage Scenes</a></li>
                 {% endif %}
             {% else %}
                 <li><a href="{{ url_for('login') }}" class="white-text">Log In</a></li>
