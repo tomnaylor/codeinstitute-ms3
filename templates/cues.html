@@ -6,28 +6,30 @@ Cues
 
 
 {% block content %}
+        <form action="{{ url_for('get_cues') }}" method="get">
+            <div class="row">
+                <div class="input-field col m10 s8">
+                    <input type="text" name="search" id="search" minlength="2" class="validate" required>
+                    <label for="search">Search Tasks</label>
+                </div>
+                <div class="input-field col s2">
+                    <button type="submit" class="btn">Search</button>
+                </div>
+            </div>
+        </form>
 
-<form action="{{ url_for('get_cues') }}" method="get">
-    <div class="row">
-        <div class="input-field col s4">
-            <input type="text" name="search" id="search" minlength="2" class="validate" required>
-            <label for="search">Search Tasks</label>
-        </div>
-        <div class="input-field col s2">
-            <button type="submit" class="btn">Search</button>
+
+    <div class="row right">
+        <div class="col s12">
+            Filter: 
+            <a href="{{ url_for('get_cues') }}" class="blue-text">All</a>
+
+            {% for department in departments %}
+            | <a href="{{ url_for('get_cues', dept=department.name) }}" class="blue-text">{{ department.name }}</a>
+            {% endfor %}
         </div>
     </div>
-</form>
 
-
-<div class="right">
-    Filter: 
-    <a href="{{ url_for('get_cues') }}" class="blue-text">All</a>
-
-    {% for department in departments %}
-    | <a href="{{ url_for('get_cues', dept=department.name) }}" class="blue-text">{{ department.name }}</a>
-    {% endfor %}
-</div>
 
     {% if cues[0]|length > 0 %}
         <table class="highlight responsive-table">
