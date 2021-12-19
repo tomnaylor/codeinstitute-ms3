@@ -32,102 +32,97 @@
       </ul>
 
       <ul id="nav-mobile" class="sidenav">
-        <li><a href="{{ url_for('get_cues') }}" class="white-text">Home</a></li>
+        <li><a href="{{ url_for('get_cues') }}">Home</a></li>
         {% if session.user %}
-            <li><a href="{{ url_for('new_cue') }}" class="white-text">New Cue</a></li>
-            <li><a href="{{ url_for('get_user') }}" class="white-text">Profile</a></li>
-            <li><a href="{{ url_for('logout') }}" class="white-text">Log Out</a></li>
+            <li><a href="{{ url_for('new_cue') }}">New Cue</a></li>
+            <li><a href="{{ url_for('get_user') }}">Profile</a></li>
+            <li><a href="{{ url_for('logout') }}">Log Out</a></li>
             {% if session.admin == "yes" %}
-              <li><a href="{{ url_for('get_departments') }}" class="white-text">Manage Departments</a></li>
-              <li><a href="{{ url_for('get_scenes') }}" class="white-text">Manage Scenes</a></li>              
+              <li><a href="{{ url_for('get_departments') }}">Manage Departments</a></li>
+              <li><a href="{{ url_for('get_scenes') }}">Manage Scenes</a></li>              
             {% endif %}
         {% else %}
-            <li><a href="{{ url_for('login') }}" class="white-text">Log In</a></li>
-            <li><a href="{{ url_for('sign_up') }}" class="white-text">Sign Up</a></li>
+            <li><a href="{{ url_for('login') }}">Log In</a></li>
+            <li><a href="{{ url_for('sign_up') }}">Sign Up</a></li>
         {% endif %}      </ul>
-      <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <a href="#" data-target="nav-mobile" class="sidenav-trigger white-text"><i class="material-icons">menu</i></a>
     </div>
   </nav>
 </div>
 
-
-
+<!-- H1 HEADER -->
 <div class="container">
   <h1 class="header green-text">{% block h1 %}{% endblock %}</h1>
 </div>
 
 
-
-
-  <!-- MAIN CONTENT -->
-  <div class="container">
-    <div class="section">
-      <div class="row">
-        <div class="col s12 center">
-            {% block content %}
-            {% endblock %}
-        </div>
+<!-- MAIN CONTENT -->
+<div class="container">
+  <div class="section">
+    <div class="row">
+      <div class="col s12 center">
+          {% block content %}
+          {% endblock %}
       </div>
     </div>
   </div>
+</div>
 
 
-
-
-  <footer class="page-footer blue-grey darken-4">
-    <div class="container">
-      <div class="row">
-        <div class="col l9 s12">
-          <h5 class="white-text">Theatre Cue Manager</h5>
-          <p class="grey-text text-lighten-4">
-            Theatre Cue Manager can help stage managers, show managers and all technical staff quickly 
-            manage cue stacks across multiple disiplines and keep one up-to-date bible that can be 
-            quickly shared and printed to cope with the demands of dreaded tech weeks!
-          </p>
-        </div>
-        <div class="col l3 s12">
-          <ul>
-            <li><a href="{{ url_for('get_cues') }}" class="white-text">Home</a></li>
-            {% if session.user %}
-                <li><a href="{{ url_for('new_cue') }}" class="white-text">New Cue</a></li>
-                <li><a href="{{ url_for('get_user') }}" class="white-text">Profile</a></li>
-                <li><a href="{{ url_for('logout') }}" class="white-text">Log Out</a></li>
-                {% if session.admin == "yes" %}
-                  <li><a href="{{ url_for('get_departments') }}" class="white-text">Manage Departments</a></li>
-                  <li><a href="{{ url_for('get_scenes') }}" class="white-text">Manage Scenes</a></li>
-                {% endif %}
-            {% else %}
-                <li><a href="{{ url_for('login') }}" class="white-text">Log In</a></li>
-                <li><a href="{{ url_for('sign_up') }}" class="white-text">Sign Up</a></li>
-            {% endif %}          </ul>
-        </div>
+<footer class="page-footer blue-grey darken-4">
+  <div class="container">
+    <div class="row">
+      <div class="col l9 s12">
+        <h5 class="white-text">Theatre Cue Manager</h5>
+        <p class="grey-text text-lighten-4">
+          Theatre Cue Manager can help stage managers, show managers and all technical staff quickly 
+          manage cue stacks across multiple disiplines and keep one up-to-date bible that can be 
+          quickly shared and printed to cope with the demands of dreaded tech weeks!
+        </p>
+      </div>
+      <div class="col l3 s12">
+        <ul>
+          <li><a href="{{ url_for('get_cues') }}" class="white-text">Home</a></li>
+          {% if session.user %}
+              <li><a href="{{ url_for('new_cue') }}" class="white-text">New Cue</a></li>
+              <li><a href="{{ url_for('get_user') }}" class="white-text">Profile</a></li>
+              <li><a href="{{ url_for('logout') }}" class="white-text">Log Out</a></li>
+              {% if session.admin == "yes" %}
+                <li><a href="{{ url_for('get_departments') }}" class="white-text">Manage Departments</a></li>
+                <li><a href="{{ url_for('get_scenes') }}" class="white-text">Manage Scenes</a></li>
+              {% endif %}
+          {% else %}
+              <li><a href="{{ url_for('login') }}" class="white-text">Log In</a></li>
+              <li><a href="{{ url_for('sign_up') }}" class="white-text">Sign Up</a></li>
+          {% endif %}          </ul>
       </div>
     </div>
-    <div class="footer-copyright">
-      <div class="container">
-      Made by Tom Naylor
-      </div>
-    </div>
-  </footer>
+  </div>
+  <div class="footer-copyright">
+    <div class="container">Made by Tom Naylor</div>
+  </div>
+</footer>
 
 
-  <!--  Scripts-->
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/init.js') }}"></script>
-  <!-- FLASH SECTION -->
-  <script>
-    {% with flashed = get_flashed_messages() %}
-        {% if flashed %}
-            {% for message in flashed %}
-            M.toast({
-              html: '{{ message }}', 
-              classes: 'rounded red white-text hoverable pulse tn-toast',
-              displayLength: 10000})
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-  </script>
+<!--  Scripts-->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
+<script src="{{ url_for('static', filename='js/init.js') }}"></script>
+
+
+<!-- FLASH SECTION -->
+{% with flashed = get_flashed_messages() %}
+  {% if flashed %}
+    {% for message in flashed %}
+      <script>
+        M.toast({
+          html: '{{ message }}', 
+          classes: 'rounded red white-text hoverable pulse tn-toast',
+          displayLength: 10000})
+      </script>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
   
-  </body>
+</body>
 </html>

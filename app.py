@@ -28,6 +28,7 @@ def is_user_logged_in():
     else:
         return True
 
+
 def is_user_admin():
     """ CHECK FOR ADMIN RIGHTS """
     if not session.get('admin'):
@@ -35,6 +36,7 @@ def is_user_admin():
         return False
     else:
         return True
+
 
 @app.route("/")
 def get_cues():
@@ -89,7 +91,7 @@ def login():
         if check_password_hash(
                 exists["password"], request.form.get("password")):
             session["user"] = exists["email"]
-            
+
             if exists.get('admin'):
                 session["admin"] = exists["admin"]
 
@@ -143,7 +145,7 @@ def get_departments():
 @app.route("/new-department", methods=["GET", "POST"])
 def new_department():
     """ ADD A NEW DEPARTMENT """
-    
+
     if not is_user_admin():
         return redirect(url_for("get_cues"))
 
@@ -171,7 +173,7 @@ def edit_department(dept_id):
 
     if request.method == "POST":
 
-        new_value = { "$set": { "name": request.form.get("name") } }
+        new_value = {"$set": {"name": request.form.get("name")}}
         mongo.db.departments.update_one({"_id": ObjectId(dept_id)}, new_value)
         flash("Department updated")
         return redirect(url_for("get_departments"))
@@ -183,10 +185,10 @@ def edit_department(dept_id):
 @app.route("/delete_department/<dept_id>/<dept_name>")
 def delete_department(dept_id, dept_name):
     """ DELETE A DEPARTMENT """
-    
+
     if not is_user_admin():
         return redirect(url_for("get_cues"))
-    
+
     inuse = mongo.db.cues.find_one({"dept": dept_name})
     if inuse:
         flash("Department is used in cues")
@@ -293,7 +295,8 @@ def new_cue():
 
     departments = mongo.db.departments.find().sort("name", 1)
     scenes = mongo.db.scenes.find().sort("name", 1)
-    return render_template("new-cue.html", departments=departments, scenes=scenes)
+    return render_template(
+        "new-cue.html", departments=departments, scenes=scenes)
 
 
 @app.route("/edit-cue/<cue_id>", methods=["GET", "POST"])
@@ -311,7 +314,7 @@ def edit_cue(cue_id):
             "scene": request.form.get("scene"),
             "desc": request.form.get("desc")
             }}
-            
+
         mongo.db.cues.update_one({"_id": ObjectId(cue_id)}, new_value)
         flash("Cue updated")
         return redirect(url_for("get_cues"))
@@ -319,7 +322,8 @@ def edit_cue(cue_id):
     departments = mongo.db.departments.find().sort("name", 1)
     scenes = mongo.db.scenes.find().sort("name", 1)
     cue = mongo.db.cues.find_one({"_id": ObjectId(cue_id)})
-    return render_template("edit-cue.html", cue=cue, departments=departments, scenes=scenes)
+    return render_template(
+        "edit-cue.html", cue=cue, departments=departments, scenes=scenes)
 
 
 @app.route("/delete-cue/<cue_id>")
