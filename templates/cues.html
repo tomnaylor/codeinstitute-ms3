@@ -30,9 +30,9 @@ Cues
                         <td>{{ cue.dept }}</td>
                         <td>{{ cue.role }}</td>
                         <td>{{ cue.desc }}</td>
-                        <td><td><a href="{{ url_for('edit_cue', cue_id=cue._id) }}" class="btn blue">Edit</a></td></td>
+                        <td><td><a href="{{ url_for('edit_cue', cue_id=cue._id) }}" class="btn-small blue waves-effect waves-light">Edit</a></td></td>
                         <td>
-                            <a href="{{ url_for('delete_cue', cue_id=cue._id) }}" class="btn red"
+                            <a href="{{ url_for('delete_cue', cue_id=cue._id) }}" class="btn-small red waves-effect waves-light"
                                 onclick="return confirm('Are you sure?');">Delete</a>
                         </td>
                         </tr>

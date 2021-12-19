@@ -7,10 +7,19 @@ List of Scenes
 
 {% block content %}
 
-    <a href="{{ url_for('new_scene') }}" class="btn green accent-4">New scene</a>
+    <a href="{{ url_for('new_scene') }}" class="btn green darken-4 right">New scene</a>
 
     {% if scenes|length > 0 %}
-        <table>
+        <table class="highlight">
+            <thead>
+                <tr>
+                    <th style="width:50%;">Scene name</th>
+                    <th style="width:50%;">Description</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
             {% for scene in scenes %}
                 <tr>
                     <td>{{ scene.name }}</td>
@@ -22,7 +31,8 @@ List of Scenes
                     </td>
                 </tr>
             {% endfor %}
-            </table>  
+            </tbody>
+        </table>  
     {% else %}
         <h3>No Results Found</h3>
     {% endif %}

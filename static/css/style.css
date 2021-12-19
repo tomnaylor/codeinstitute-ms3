@@ -35,6 +35,11 @@ p {
   text-transform: uppercase;
 }
 
+h1 {
+  font-size: 2.5em;
+  text-transform: uppercase;
+}
+
 @media only screen and (max-width : 992px) {
   .parallax-container .section {
     position: absolute;
