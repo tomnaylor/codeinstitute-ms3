@@ -38,11 +38,19 @@ def is_user_admin():
         return True
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def get_cues():
     """ HOME PAGE WILL BE LIST OF CUES INC A FILTER OPTION """
-    cues = mongo.db.cues.find().sort("time", 1)
-    return render_template("cues.html", cues=cues)
+    
+    if request.method == 'GET' and request.args.get("dept"):
+        query = request.args.get("dept")
+        cues = mongo.db.cues.find({"dept": query}).sort("time", 1)
+    else:
+        cues = mongo.db.cues.find().sort("time", 1)
+
+    departments = list(mongo.db.departments.find())
+
+    return render_template("cues.html", cues=cues, departments=departments)
 
 
 # ----- USERS -----

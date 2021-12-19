@@ -7,6 +7,15 @@ Cues
 
 {% block content %}
 
+<div class="right">
+    Filter: 
+    <a href="{{ url_for('get_cues') }}" class="blue-text">All</a>
+
+    {% for department in departments %}
+    | <a href="{{ url_for('get_cues', dept=department.name) }}" class="blue-text">{{ department.name }}</a>
+    {% endfor %}
+</div>
+
     {% if cues[0]|length > 0 %}
         <table class="highlight responsive-table">
             <thead>
