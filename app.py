@@ -41,14 +41,13 @@ def is_user_admin():
 @app.route("/", methods=["GET"])
 def get_cues():
     """ HOME PAGE WILL BE LIST OF CUES INC A FILTER OPTION """
-    
+
     if request.method == 'GET' and request.args.get("dept"):
         query = request.args.get("dept")
         cues = mongo.db.cues.find({"dept": query}).sort("time", 1)
     elif request.method == 'GET' and request.args.get("search"):
         query = request.args.get("search")
-        cues = mongo.db.cues.find( { 'desc' : { '$regex' : query, '$options' : 'i' } } )
-        #cues = mongo.db.cues.find({"desc" : "/in/"}).sort("time", 1)
+        cues = mongo.db.cues.find({'desc': {'$regex': query, '$options': 'i'}})
     else:
         cues = mongo.db.cues.find().sort("time", 1)
 
